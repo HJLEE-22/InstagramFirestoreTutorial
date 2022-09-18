@@ -18,7 +18,6 @@
 		AD33F9F128D1C6530001014E /* ImageSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD33F9F028D1C6530001014E /* ImageSelectorController.swift */; };
 		AD33F9F328D1C66D0001014E /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD33F9F228D1C66D0001014E /* NotificationController.swift */; };
 		AD33F9F528D1C6890001014E /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD33F9F428D1C6890001014E /* ProfileController.swift */; };
-		AD33F9F728D1C9870001014E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD33F9F628D1C9870001014E /* Assets.xcassets */; };
 		AD33F9F928D1DEF40001014E /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD33F9F828D1DEF40001014E /* FeedCell.swift */; };
 		AD33F9FB28D1E7180001014E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD33F9FA28D1E7180001014E /* Extensions.swift */; };
 		AD33F9FE28D1E8C00001014E /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = AD33F9FD28D1E8C00001014E /* JGProgressHUD */; };
@@ -30,6 +29,7 @@
 		AD33FA0B28D449A10001014E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD33FA0A28D449A10001014E /* GoogleService-Info.plist */; };
 		AD33FA0D28D47B650001014E /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD33FA0C28D47B650001014E /* ImageUploader.swift */; };
 		AD33FA0F28D47B720001014E /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD33FA0E28D47B720001014E /* AuthService.swift */; };
+		AD33FA1128D736B70001014E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD33FA1028D736B70001014E /* Assets.xcassets */; };
 		E9F6EED430FE88B9DA3DF723 /* Pods_InstagramFirestoreTutorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD1FDBE7C3C630553E0B76C6 /* Pods_InstagramFirestoreTutorial.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,7 +49,6 @@
 		AD33F9F028D1C6530001014E /* ImageSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectorController.swift; sourceTree = "<group>"; };
 		AD33F9F228D1C66D0001014E /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		AD33F9F428D1C6890001014E /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
-		AD33F9F628D1C9870001014E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		AD33F9F828D1DEF40001014E /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		AD33F9FA28D1E7180001014E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AD33FA0028D2D56E0001014E /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -60,6 +59,7 @@
 		AD33FA0A28D449A10001014E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AD33FA0C28D47B650001014E /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		AD33FA0E28D47B720001014E /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		AD33FA1028D736B70001014E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD1FDBE7C3C630553E0B76C6 /* Pods_InstagramFirestoreTutorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstagramFirestoreTutorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -119,7 +119,7 @@
 				AD33F9DB28D1BF8D0001014E /* LaunchScreen.storyboard */,
 				AD33F9DE28D1BF8D0001014E /* Info.plist */,
 				AD33FA0A28D449A10001014E /* GoogleService-Info.plist */,
-				AD33F9F628D1C9870001014E /* Assets.xcassets */,
+				AD33FA1028D736B70001014E /* Assets.xcassets */,
 			);
 			path = InstagramFirestoreTutorial;
 			sourceTree = "<group>";
@@ -265,8 +265,8 @@
 			files = (
 				AD33F9DD28D1BF8D0001014E /* LaunchScreen.storyboard in Resources */,
 				AD33FA0B28D449A10001014E /* GoogleService-Info.plist in Resources */,
-				AD33F9F728D1C9870001014E /* Assets.xcassets in Resources */,
 				AD33F9D828D1BF8C0001014E /* Main.storyboard in Resources */,
+				AD33FA1128D736B70001014E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,8 +480,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 457FC4B0D6A142ACF979643B /* Pods-InstagramFirestoreTutorial.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 68YVCN8TF9;
@@ -509,8 +509,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2E955E28A295ED9F231E3913 /* Pods-InstagramFirestoreTutorial.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 68YVCN8TF9;
