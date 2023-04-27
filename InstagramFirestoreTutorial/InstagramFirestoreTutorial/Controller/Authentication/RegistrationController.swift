@@ -7,19 +7,26 @@
 
 import UIKit
 import PhotosUI
+import RxSwift
+import RxCocoa
 
 class RegistrationController: UIViewController {
     
     // MARK: - Properties
     
     private var viewModel = RegistrationViewModel()
+    var viewModelRx: AuthentificationViewModelRx!
+    var disposeBag = DisposeBag()
+    
     private var profileImage: UIImage?
+    weak var delegate: AuthenticationDelegate?
     
     private let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "plus_photo"), for: .normal)
+        button.setBackgroundImage(UIImage(named: "plus_photo"), for: .normal)
+        button.setImage(nil, for: .normal)
         button.tintColor = .white
-        button.addTarget(self, action: #selector(imagePickerTapped), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(imagePickerTapped), for: .touchUpInside)
         return button
     }()
     
@@ -48,14 +55,13 @@ class RegistrationController: UIViewController {
         button.setHeight(50)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.isEnabled = false
-        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return button
     }()
 
     private let alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         button.attributedTitle(firstPart: "Already have an account? ", secondPart: "Log In")
-        button.addTarget(self, action: #selector(handleShowLogIn), for: .touchUpInside)
         return button
     }()
     
@@ -63,43 +69,32 @@ class RegistrationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureNotificationObservers()
+        bindWithoutViewModel()
+        bindViewModel()
     }
     
     // MARK: - Actions
     
-    
+    /*
+
     @objc func handleSignUp() {
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         guard let fullname = fullnameTextField.text else { return }
-        guard let username = usernameTextField.text else { return }
+        guard let username = usernameTextField.text?.lowercased() else { return }
         guard let profileImage = profileImage else { return }
 
         let credentials = AuthCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
 
-        AuthServie.registerUser(withCrediential: credentials)
-    }
-    
-    @objc func handleShowLogIn() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func textDidChange(sender: UITextField) {
-        if sender == emailTextField {
-            viewModel.email = sender.text
-        } else if sender == passwordTextField {
-            viewModel.password = sender.text
-        } else if sender == fullnameTextField {
-            viewModel.fullname = sender.text
-        } else {
-            viewModel.username = sender.text
+        AuthServie.registerUser(withCrediential: credentials) { error in
+            if let error = error {
+                print("DEBUG : Failed to register user \(error.localizedDescription)")
+                return
+            }
+            self.delegate?.authenticationDidComplete()
         }
-        updateForm()
     }
-    
     @objc func imagePickerTapped() {
-        print("imagePickerTapped")
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 1
         
@@ -112,6 +107,7 @@ class RegistrationController: UIViewController {
         self.present(picker, animated: true, completion: nil)
         
     }
+     */
     
     // MARK: - Helpers
     
@@ -134,28 +130,12 @@ class RegistrationController: UIViewController {
         alreadyHaveAccountButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
         
     }
-    
-    func configureNotificationObservers() {
-        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        fullnameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        usernameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        
-    }
-    
-}
 
-
-// MARK: - FormViewModel extension
-extension RegistrationController: FormViewModel {
-    func updateForm() {
-        loginButton.backgroundColor = viewModel.buttonBackgroundColor
-        loginButton.setTitleColor(viewModel.buttonTitleColor, for: .normal)
-        loginButton.isEnabled = viewModel.formIsValid
-    }
+    
 }
 
 // MARK: - PHPicker extention
+/*
 extension RegistrationController : PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
@@ -173,12 +153,96 @@ extension RegistrationController : PHPickerViewControllerDelegate {
                     self.plusPhotoButton.layer.masksToBounds = true
                     self.plusPhotoButton.layer.borderColor = UIColor.black.cgColor
                     self.plusPhotoButton.layer.borderWidth = 2
-                    self.plusPhotoButton.setImage(image as? UIImage, for: .normal)
-                    
+                    self.plusPhotoButton.setBackgroundImage(image as? UIImage, for: .normal)
+                    self.plusPhotoButton.setImage(nil, for: .normal)
                 }
             }
         } else {
             print("이미지 못 불러왔음!!!!")
         }
     }
+}
+ */
+
+extension RegistrationController: ViewModelBindable {
+    
+    func bindWithoutViewModel() {
+        alreadyHaveAccountButton.rx.tap
+            .withUnretained(self)
+            .subscribe { selfController, event in
+                selfController.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func bindViewModel() {
+        emailTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .bind(to: viewModelRx.input.email)
+            .disposed(by: disposeBag)
+        
+        passwordTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .bind(to: viewModelRx.input.password)
+            .disposed(by: disposeBag)
+        
+        fullnameTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .bind(to: viewModelRx.input.fullName)
+            .disposed(by: disposeBag)
+        
+        usernameTextField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .bind(to: viewModelRx.input.userName)
+            .disposed(by: disposeBag)
+        
+        viewModelRx.output.buttonBackgroundColor
+            .drive(loginButton.rx.backgroundColor)
+            .disposed(by: disposeBag)
+        
+        viewModelRx.output.buttonTitleColor
+            .drive { [weak self] color in
+                guard let title = self?.loginButton.titleLabel else { return }
+                title.textColor = color
+            }
+            .disposed(by: disposeBag)
+        
+        viewModelRx.output.formIsValid
+            .drive(loginButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        plusPhotoButton.rx.tap
+            .bind(to: viewModelRx.input.plusPhotoButtonTapped)
+            .disposed(by: disposeBag)
+        
+        plusPhotoButton.rx.tap
+            .do { [weak self] event in
+                var configuration = PHPickerConfiguration()
+                configuration.selectionLimit = 1
+                let phPicker = PHPickerViewController(configuration: configuration)
+                self?.present(phPicker, animated: true)
+            }
+            .bind(to: viewModelRx.input.plusPhotoButtonTapped)
+            .disposed(by: disposeBag)
+        
+        viewModelRx.output.selectedImage
+            .do { [weak self] _ in
+                guard let self else { return }
+                self.plusPhotoButton.layer.cornerRadius = self.plusPhotoButton.frame.width / 2
+                self.plusPhotoButton.layer.masksToBounds = true
+                self.plusPhotoButton.layer.borderColor = UIColor.black.cgColor
+                self.plusPhotoButton.layer.borderWidth = 2
+            }
+            .drive(plusPhotoButton.rx.backgroundImage())
+            .disposed(by: disposeBag)
+        
+        loginButton.rx.tap
+            .bind(to: viewModelRx.input.signUpButtonTapped)
+            .disposed(by: disposeBag)
+    }
+    
 }
